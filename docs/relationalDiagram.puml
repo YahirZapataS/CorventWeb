@@ -1,6 +1,6 @@
-@startuml CorventWeb
+@startuml RelationalCorvent
 
-class Doctor {
+entity Doctor {
     +id: int
     name: String
     birthday: Date
@@ -9,7 +9,7 @@ class Doctor {
     phone: String
 }
 
-class Patient {
+entity Patient {
     +id: int
     name: String
     genre: String
@@ -19,7 +19,7 @@ class Patient {
     registerDate: Date
 }
 
-class MedicalRecord {
+entity MedicalRecord {
     +id: int
     patient: Patient
     diagnostic: String
@@ -27,7 +27,7 @@ class MedicalRecord {
     updateDate: Date
 }
 
-class Appointment {
+entity Appointment {
     +id: int
     patient: Patient
     doctor: Doctor
@@ -36,7 +36,7 @@ class Appointment {
     appointmentStatus: String
 }
 
-class Payment {
+entity Payment {
     +id: int
     patient: Patient
     amount: Double
@@ -44,7 +44,7 @@ class Payment {
     paymetnMethod: String
 }
 
-class SatisfactionSurvey {
+entity SatisfactionSurvey {
     +id: int
     patient: Patient
     doctor: Doctor
@@ -53,25 +53,25 @@ class SatisfactionSurvey {
     surveyDate: Date
 }
 
-class ExpenseControl {
+entity ExpenseControl {
     +id: int
     description: String
     expenseAmount: Double
     expenseDate: Date
 }
 
-class DocumentSinging {
+entity DocumentSinging {
     +id: int
     patient: Patient
     signingImage:
     signingDate: Date
 }
 
-Patient ---> MedicalRecord
-Patient ---> Appointment
-Patient ---> Payment
-Patient ---> SatisfactionSurvey
-Patient --->  DocumentSinging
-Doctor ---> ExpenseControl
-Appointment ---> Doctor
-SatisfactionSurvey ---> Doctor
+Patient ||--o{ Appointment
+Patient ||--|| Payment
+Patient ||--|| MedicalRecord
+Patient ||--o{ SatisfactionSurvey
+Doctor ||--|| ExpenseControl
+Appointment ||--|| Doctor
+Patient ||--|| DocumentSinging
+SatisfactionSurvey ||--|| Doctor
