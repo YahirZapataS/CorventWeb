@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="menu.css">
+
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="MenuDiv">
+        <div class="Menu">
+            <button type="submit" id="custom-button">PACIENTES</button>
+            <button type="submit" id="custom-button">CONSULTAS</button>
+            <button type="submit" id="custom-button">CITAS PENDIENTES</button>
+
+        </div>
+        
+    </div>
+    <!-- Ícono del perfil que activa el menú -->
+<div class="profile-icon" onclick="toggleSidebar()">
+    <img src="img/icono.png" alt="Perfil">
+</div>
+
+<!-- Menú lateral oculto por defecto -->
+<div id="sidebar" class="sidebar">
+    <div class="session-info">
+        <h2>Bienvenido, Usuario</h2>
+        <p>Información de sesión</p>
+    </div>
+    <ul class="menu-options">
+        <li><a href="#profile">Perfil</a></li>
+        <li><a href="#patients">Pacientes</a></li>
+        <li><a href="#consultations">Consultas</a></li>
+        <li><a href="#pending-appointments">Citas Pendientes</a></li>
+        <li><a href="#settings">Configuración</a></li>
+        <li><a href="#logout">Cerrar Sesión</a></li>
+    </ul>
+</div>
+<script> src="HomeScreenScript.js"</script>
+    
+</body>
+
+</html>
