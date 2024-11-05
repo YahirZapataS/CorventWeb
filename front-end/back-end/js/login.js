@@ -11,8 +11,7 @@ btnLogin.addEventListener('click', async () => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log('Usuario Autenticado', userCredential.user);
 
-        // Redirigir al dashboard con el correo como parámetro en la URL
-        window.location.href = `loans.html?email=${encodeURIComponent(email)}`;
+        window.location.href = './html/HomeScreen.html';
     } catch (error) {
         showAlert('¡Ups!', 'Correo o contraseña incorrectos. Intentalo de nuevo', 'error');
     }
