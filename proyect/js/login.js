@@ -9,9 +9,9 @@ btnLogin.addEventListener('click', async () => {
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = '/front-end/html/HomeScreen.html';
         console.log('Usuario Autenticado', userCredential.user);
 
-        window.location.href = './html/HomeScreen.html';
     } catch (error) {
         showAlert('¡Ups!', 'Correo o contraseña incorrectos. Intentalo de nuevo', 'error');
     }
