@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { auth, db } from './firebase.js';
 import { addDoc, collection } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const name = form.username.value;
             const lastname = form.userlastname.value;
 
+            // Validación de longitud de contraseña y coincidencia
             if (password.length < 6) {
                 showAlert('¡Ups!', 'La contraseña debe tener al menos 6 caracteres.', 'error');
                 return;
@@ -30,33 +31,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
+                // Crear el usuario con correo y contraseña en Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
+                // Guardar la información del usuario en Firestore
                 await saveFormDataToFirestore(email, name, lastname);
 
-                form.reset();
+                // Enviar correo de verificación
+                await sendEmailVerification(user);
 
-                showAlertWithRedirect('Listo!', 'Usuario Creado con éxito.', 'success');
+                // Limpiar el formulario y notificar al usuario
+                form.reset();
+                showAlertWithRedirect('¡Listo!', 'Usuario creado con éxito. Verifica tu correo para acceder.', 'success');
 
             } catch (error) {
-                showAlert('¡Ups!', 'Algo pasó, Usuario no registrado', 'error');
+                console.error(error);
+                showAlert('¡Ups!', 'Algo pasó, Usuario no registrado.', 'error');
             }
         });
 
+        // Mostrar u ocultar la contraseña
         showPassword.addEventListener('change', function () {
             passwordInput.type = this.checked ? 'text' : 'password';
             confirmPasswordInput.type = this.checked ? 'text' : 'password';
         });
 
+        // Volver a la página de inicio
         btnBack.addEventListener('click', async () => {
             window.location.replace('index.html');
         });
     } else {
-        console.error('El elemento formGroup no se encuentra en el DOM.');
+        console.error('El formulario no se encuentra en el DOM.');
     }
 });
 
+// Guardar los datos del usuario en Firestore
 async function saveFormDataToFirestore(email, name, lastname) {
     try {
         await addDoc(collection(db, 'users'), {
@@ -65,10 +75,12 @@ async function saveFormDataToFirestore(email, name, lastname) {
             lastname: lastname
         });
     } catch (error) {
-        showAlert('¡Ups!', 'Ha ocurrido un error al guardar los datos en la base de datos', 'error');
+        console.error(error);
+        showAlert('¡Ups!', 'Error al guardar los datos en la base de datos.', 'error');
     }
 }
 
+// Funciones de alerta usando SweetAlert
 function showAlert(title, text, icon) {
     Swal.fire({
         title: title,
