@@ -33,13 +33,10 @@ body {
 }
 
 .password {
-    margin-top: 10px;
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: auto;
+    margin-bottom: 30px;
 }
 
-#user-input {
+.user input {
     border-color: #32a491;
     border-top: #000000;
     border-left: #000000;
@@ -54,7 +51,7 @@ body {
     display: block;
 }
 
-#password-input {
+.password input {
     border-color: #32a491;
     border-top: #000000;
     border-left: #000000;
@@ -69,48 +66,23 @@ body {
     display: block;
 }
 
-#user-input:focus, #password-input:focus {
+.user input:focus {
     outline: none;
 }
 
-/* Recuperar contraseña*/
-
-.forgot-password{
-    margin-top: 15px;
-    font-size: 20px;
+.password input:focus {
+    outline: none;
 }
-
-.forgot-password a {
-    color: #32a491;
-}
-
-.forgot-password a:hover {
-    color: #0edfbf;
-}
-
-.register {
-    margin-top: 15px;
-    font-size: 20px;
-}
-
-.register a {
-    color: #32a491;
-}
-
-.register a:hover {
-    color: #0edfbf;
-}
-
 
 #showPassword {
     margin-top: 10px;
 }
 
 /*
-Estilo Botón
+Estilo boton
 */
 
-#btn-login {
+.btn-register {
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
@@ -154,31 +126,62 @@ Estilo Botón
     transition-duration: .3s;
 }
 
-#btn-login:hover {
+.btn-register:hover {
     width: 125px;
     border-radius: 40px;
     transition-duration: .3s;
 }
 
-#btn-login:hover .sign {
+.btn-register:hover .sign {
     width: 30%;
     transition-duration: .3s;
     padding-left: 20px;
 }
 
-#btn-login:hover .text {
+.btn-register:hover .text {
     opacity: 1;
     width: 70%;
     transition-duration: .3s;
     padding-right: 10px;
 }
 
-#btn-login:active {
+.btn-register:active {
     transform: translate(2px, 2px);
 }
 
-/*Estilo de Input*/
-input::placeholder {
+/*
+Estilo boton back
+*/
+
+/* From Uiverse.io by Jedi-hongbin */
+#btn-back {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee4b;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border: none;
+    background: #fff;
+}
+
+#btn-back>svg {
+    margin-right: 5px;
+    margin-left: 5px;
     font-size: 20px;
-    font-weight: bold;
+    transition: all 0.4s ease-in;
+}
+
+#btn-back:hover>svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+#btn-back:hover {
+    box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+    transform: translateY(-2px);
 }
