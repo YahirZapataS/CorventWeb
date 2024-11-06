@@ -81,24 +81,6 @@
     border-radius: 4px;
 }
 
-/* Estilos para el contenedor */
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 70%;
-    max-height: 100vh;
-    margin-top: 10px;
-    overflow-y: auto;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 #doctor-management {
     width: 80%;
     margin: 0 auto;
@@ -108,14 +90,14 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+section h2 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
     text-align: center;
 }
 
-h3 {
+section h3 {
     font-size: 20px;
     color: #333;
     margin-top: 20px;
@@ -175,19 +157,19 @@ button {
     background-color: #d88b1a;
 }
 
-ul {
+section ul {
     list-style-type: none;
     padding: 0;
 }
 
-ul li {
+section ul li {
     background-color: #e1e8ed;
     padding: 10px;
     margin-top: 5px;
     border-radius: 5px;
 }
 
-ul li:not(:last-child) {
+section     ul li:not(:last-child) {
     margin-bottom: 10px;
 }
 
@@ -195,4 +177,17 @@ ul li:not(:last-child) {
     #doctor-management {
         width: 95%;
     }
+}
+
+.day-button {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.day-button.selected {
+    background-color: #007bff;
+    color: white;
 }

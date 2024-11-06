@@ -40,22 +40,19 @@
             <li><a href="index.html">Cerrar Sesión</a></li>
         </ul>
     </div>
-
-    <div class="container">
-        <h1 id="title">Gestor</h1>
         <section id="doctor-management">
             <form id="gestionar-horario">
                 <h2>Gestionar Horarios</h2>
                 <div class="form-group">
-                    <label for="day">Selecciona los días de la semana:</label>
-                    <select id="day" name="day" multiple>
-                        <option value="Lunes">Lunes</option>
-                        <option value="Martes">Martes</option>
-                        <option value="Miércoles">Miércoles</option>
-                        <option value="Jueves">Jueves</option>
-                        <option value="Viernes">Viernes</option>
-                    </select>
-                </div>
+                    <label>Selecciona los días de la semana:</label>
+                    <div id="days-container">
+                        <button type="button" class="day-button" data-day="Lunes">Lunes</button>
+                        <button type="button" class="day-button" data-day="Martes">Martes</button>
+                        <button type="button" class="day-button" data-day="Miércoles">Miércoles</button>
+                        <button type="button" class="day-button" data-day="Jueves">Jueves</button>
+                        <button type="button" class="day-button" data-day="Viernes">Viernes</button>
+                    </div>
+                </div>                
 
                 <div class="form-group">
                     <label for="start-time">Hora de inicio:</label>
@@ -83,8 +80,6 @@
                 <ul id="services-list"></ul>
             </form>
         </section>
-
-    </div>
 </body>
 
 </html>

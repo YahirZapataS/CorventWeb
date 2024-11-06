@@ -2,6 +2,7 @@ import { db, auth } from './firebase.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 import { collection, addDoc, getDoc, updateDoc, doc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
+// Verifica si el usuario está autenticado y carga los datos del doctor
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         loadDoctorData(user);
@@ -11,10 +12,21 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+// Alterna la selección de los botones de días al hacer clic
+document.querySelectorAll('.day-button').forEach(button => {
+    button.addEventListener('click', () => {
+        button.classList.toggle('selected');
+    });
+});
+
+// Maneja el envío del formulario para gestionar el horario
 document.getElementById('gestionar-horario').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const selectedDays = Array.from(document.getElementById('day').selectedOptions).map(option => option.value);
+    // Obtiene los días seleccionados
+    const selectedDays = Array.from(document.querySelectorAll('.day-button.selected'))
+                              .map(button => button.dataset.day);
+
     const startTime = document.getElementById('start-time').value;
     const endTime = document.getElementById('end-time').value;
     const userEmail = auth.currentUser.email;
@@ -24,6 +36,7 @@ document.getElementById('gestionar-horario').addEventListener('submit', async (e
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
+            // Si el doctor no existe, crea un nuevo documento
             await addDoc(collection(db, 'doctors'), {
                 email: userEmail,
                 name: auth.currentUser.displayName || 'Doctor',
@@ -34,6 +47,7 @@ document.getElementById('gestionar-horario').addEventListener('submit', async (e
             });
             showAlert('Horarios guardados', 'Los horarios se han guardado correctamente para un nuevo doctor.', 'success');
         } else {
+            // Si el doctor ya existe, actualiza el documento existente
             querySnapshot.forEach(async (doc) => {
                 const doctorRef = doc.ref;
                 await updateDoc(doctorRef, {
@@ -50,6 +64,7 @@ document.getElementById('gestionar-horario').addEventListener('submit', async (e
     }
 });
 
+// Agrega un nuevo servicio al doctor
 document.getElementById('add-service').addEventListener('click', async () => {
     const serviceName = document.getElementById('service').value;
 
@@ -91,18 +106,27 @@ document.getElementById('add-service').addEventListener('click', async () => {
     }
 });
 
+// Elimina un servicio del doctor
 document.getElementById('services-list').addEventListener('click', async (e) => {
     if (e.target.tagName === 'BUTTON') {
         const serviceName = e.target.dataset.service;
-
+        
         try {
-            const doctorRef = doc(db, 'doctors', auth.currentUser.uid);
-            const doctorSnapshot = await getDoc(doctorRef);
+            const userEmail = auth.currentUser.email;
+            const q = query(collection(db, 'doctors'), where('email', '==', userEmail));
+            const querySnapshot = await getDocs(q);
 
-            let services = doctorSnapshot.data().services || [];
+            if (querySnapshot.empty) {
+                showAlert('Error', 'No se encontró el doctor en la base de datos.', 'error');
+                return;
+            }
+
+            const doctorDoc = querySnapshot.docs[0];
+            let services = doctorDoc.data().services || [];
+            
             services = services.filter(service => service !== serviceName);
 
-            await updateDoc(doctorRef, {
+            await updateDoc(doctorDoc.ref, {
                 services: services
             });
 
@@ -115,6 +139,7 @@ document.getElementById('services-list').addEventListener('click', async (e) => 
     }
 });
 
+// Renderiza la lista de servicios en la interfaz
 async function renderServices(services) {
     const servicesList = document.getElementById('services-list');
     servicesList.innerHTML = '';
@@ -132,6 +157,7 @@ async function renderServices(services) {
     });
 }
 
+// Carga los datos del doctor al iniciar sesión
 async function loadDoctorData() {
     if (auth.currentUser) {
         try {
@@ -162,6 +188,7 @@ async function loadDoctorData() {
 
 loadDoctorData();
 
+// Función para mostrar alertas con SweetAlert
 function showAlert(title, text, icon) {
     Swal.fire({
         title: title,
@@ -170,9 +197,30 @@ function showAlert(title, text, icon) {
     });
 }
 
+// Función para alternar la visibilidad de la barra lateral
 function toggleSidebar() {
-    var sidebar = document.getElementById("sidebar");
+    const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("active");
+
+    // Si el sidebar está abierto, agrega el event listener para detectar clics fuera
+    if (sidebar.classList.contains("active")) {
+        document.addEventListener("click", handleOutsideClick);
+    } else {
+        document.removeEventListener("click", handleOutsideClick);
+    }
 }
 
+// Maneja el clic fuera del sidebar para cerrarlo
+function handleOutsideClick(event) {
+    const sidebar = document.getElementById("sidebar");
+    const profileIcon = document.getElementById("profile-icon");
+
+    // Verifica si el clic ocurrió fuera del sidebar y del icono de perfil
+    if (!sidebar.contains(event.target) && !profileIcon.contains(event.target)) {
+        sidebar.classList.remove("active");
+        document.removeEventListener("click", handleOutsideClick); // Quita el event listener
+    }
+}
+
+// Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
 document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
