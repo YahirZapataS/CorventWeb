@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const name = form.username.value;
             const lastname = form.userlastname.value;
 
-            // Validación de longitud de contraseña y coincidencia
             if (password.length < 6) {
                 showAlert('¡Ups!', 'La contraseña debe tener al menos 6 caracteres.', 'error');
                 return;
@@ -31,17 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // Crear el usuario con correo y contraseña en Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                // Guardar la información del usuario en Firestore
                 await saveFormDataToFirestore(email, name, lastname);
 
-                // Enviar correo de verificación
                 await sendEmailVerification(user);
 
-                // Limpiar el formulario y notificar al usuario
                 form.reset();
                 showAlertWithRedirect('¡Listo!', 'Usuario creado con éxito. Verifica tu correo para acceder.', 'success');
 
@@ -51,13 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Mostrar u ocultar la contraseña
         showPassword.addEventListener('change', function () {
             passwordInput.type = this.checked ? 'text' : 'password';
             confirmPasswordInput.type = this.checked ? 'text' : 'password';
         });
 
-        // Volver a la página de inicio
         btnBack.addEventListener('click', async () => {
             window.location.replace('index.html');
         });
@@ -66,10 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Guardar los datos del usuario en Firestore
 async function saveFormDataToFirestore(email, name, lastname) {
     try {
-        await addDoc(collection(db, 'users'), {
+        await addDoc(collection(db, 'doctors'), {
             email: email,
             name: name,
             lastname: lastname
@@ -80,7 +72,6 @@ async function saveFormDataToFirestore(email, name, lastname) {
     }
 }
 
-// Funciones de alerta usando SweetAlert
 function showAlert(title, text, icon) {
     Swal.fire({
         title: title,

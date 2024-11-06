@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/menu.css">
-
-
+    <script src="../js/HomeScreenScript.js" type="module"></script>
+    <script src="../js/auth.js" type="module"></script>
     <title>Document</title>
 </head>
 
@@ -21,14 +21,14 @@
 
     </div>
     <!-- Ícono del perfil que activa el menú -->
-    <div class="profile-icon" onclick="toggleSidebar()">
+    <div class="profile-icon" id="profile-icon">
         <img src="../img/icono.png" alt="Perfil">
     </div>
 
     <!-- Menú lateral oculto por defecto -->
     <div id="sidebar" class="sidebar">
         <div class="session-info">
-            <h2>Bienvenido, Usuario</h2>
+            <h2 id="welcome-message">Bienvenido</h2>
             <p>Información de sesión</p>
         </div>
         <ul class="menu-options">
@@ -41,9 +41,6 @@
             <li><a href="index.html">Cerrar Sesión</a></li>
         </ul>
     </div>
-    <script src="../js/HomeScreenScript.js"></script>
-
-
 </body>
 
 </html>

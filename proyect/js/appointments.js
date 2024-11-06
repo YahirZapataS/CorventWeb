@@ -11,7 +11,6 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
     const service = document.getElementById('services').value;
 
     try {
-        // Guardar la cita en Firestore (o la base de datos que uses)
         const citasRef = collection(db, 'citas');
         await addDoc(citasRef, {
             name,
@@ -19,7 +18,7 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
             date,
             time,
             service,
-            status: 'Pendiente' // El estado de la cita puede ser gestionado
+            status: 'Pendiente'
         });
 
         showAlert('Cita agendada', 'Tu cita ha sido programada correctamente.', 'success');
@@ -31,7 +30,6 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
     }
 });
 
-// Función para mostrar alertas
 function showAlert(title, text, icon) {
     Swal.fire({
         title: title,
@@ -40,7 +38,6 @@ function showAlert(title, text, icon) {
     });
 }
 
-// Aquí podrías cargar las horas disponibles, por ejemplo.
 async function cargarHorasDisponibles(date) {
     const citasRef = collection(db, 'citas');
     const q = query(citasRef, where('date', '==', date));
@@ -53,12 +50,11 @@ async function cargarHorasDisponibles(date) {
         '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'
     ];
 
-    // Filtrar las horas ya ocupadas
     const horasOcupadas = citas.map(cita => cita.time);
     const horasRestantes = horasDisponibles.filter(hora => !horasOcupadas.includes(hora));
 
     const selectTime = document.getElementById('time');
-    selectTime.innerHTML = ''; // Limpiar las opciones anteriores
+    selectTime.innerHTML = '';
 
     horasRestantes.forEach(hora => {
         const option = document.createElement('option');
@@ -68,7 +64,6 @@ async function cargarHorasDisponibles(date) {
     });
 }
 
-// Event listener para actualizar horas disponibles al seleccionar una fecha
 document.getElementById('date').addEventListener('change', (e) => {
     const selectedDate = e.target.value;
     cargarHorasDisponibles(selectedDate);
