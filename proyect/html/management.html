@@ -46,35 +46,44 @@
         <section id="doctor-management">
             <form id="gestionar-horario">
                 <h2>Gestionar Horarios</h2>
-                <label for="day">Selecciona los días de la semana:</label>
-                <select id="day" name="day" multiple>
-                    <option value="Lunes">Lunes</option>
-                    <option value="Martes">Martes</option>
-                    <option value="Miércoles">Miércoles</option>
-                    <option value="Jueves">Jueves</option>
-                    <option value="Viernes">Viernes</option>
-                </select>
+                <div class="form-group">
+                    <label for="day">Selecciona los días de la semana:</label>
+                    <select id="day" name="day" multiple>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                    </select>
+                </div>
 
-                <label for="start-time">Hora de inicio:</label>
-                <input type="time" id="start-time" name="start-time" required>
+                <div class="form-group">
+                    <label for="start-time">Hora de inicio:</label>
+                    <input type="time" id="start-time" name="start-time" required>
+                </div>
 
-                <label for="end-time">Hora de fin:</label>
-                <input type="time" id="end-time" name="end-time" required>
+                <div class="form-group">
+                    <label for="end-time">Hora de fin:</label>
+                    <input type="time" id="end-time" name="end-time" required>
+                </div>
 
-                <button type="submit">Guardar Horarios</button>
+                <button type="submit" class="submit-btn">Guardar Horarios</button>
             </form>
 
             <form id="gestionar-servicios">
                 <h2>Gestionar Servicios</h2>
-                <label for="service">Nombre del servicio:</label>
-                <input type="text" id="service" name="service" required>
+                <div class="form-group">
+                    <label for="service">Nombre del servicio:</label>
+                    <input type="text" id="service" name="service" required>
+                </div>
 
-                <button type="button" id="add-service">Agregar Servicio</button>
+                <button type="button" id="add-service" class="add-btn">Agregar Servicio</button>
 
                 <h3>Servicios actuales:</h3>
                 <ul id="services-list"></ul>
             </form>
         </section>
+
     </div>
 </body>
 

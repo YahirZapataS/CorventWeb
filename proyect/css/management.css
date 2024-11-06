@@ -1,9 +1,7 @@
-.Menu{
+.Menu {
     text-align: center;
     padding: 50px;
-    
 }
-
 
 #custom-button {
     background-color: white;
@@ -22,9 +20,10 @@
     background-color: gray; 
 }
 
-.MenuDiv{
+.MenuDiv {
     background-color: #32a491;
 }
+
 /* Ícono de perfil */
 .profile-icon {
     position: fixed;
@@ -38,7 +37,6 @@
     height: 80px;
     border-radius: 50%; /* Redondeado */
     padding: 30px;
-    
 }
 
 /* Estilos para el sidebar */
@@ -83,14 +81,118 @@
     border-radius: 4px;
 }
 
+/* Estilos para el contenedor */
 .container {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 600px;
+    width: 70%;
     max-height: 100vh;
     margin-top: 10px;
     overflow-y: auto;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#doctor-management {
+    width: 80%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f4f7fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 16px;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+}
+
+select, input[type="time"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+select:focus, input[type="time"]:focus, input[type="text"]:focus {
+    border-color: #32a491;
+    outline: none;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.submit-btn {
+    background-color: #32a491;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #28a085;
+}
+
+.add-btn {
+    background-color: #f1a523;
+    color: white;
+    margin-top: 10px;
+}
+
+.add-btn:hover {
+    background-color: #d88b1a;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #e1e8ed;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+ul li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    #doctor-management {
+        width: 95%;
+    }
 }
