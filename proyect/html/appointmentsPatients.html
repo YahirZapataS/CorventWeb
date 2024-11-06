@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Cita - Corvent Clínica Odontológica</title>
+    <link rel="stylesheet" href="../css/appointments.css">
+    <script defer src="../js/appointments.js" type="module"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="title">Agendar Cita</h1>
+
+        <section id="appointment-form">
+            <form id="appointment-form">
+                <input type="text" id="name" name="name" placeholder="Nombre Completo" required>
+                <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+
+                <label for="date">Fecha de la Cita:</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="time">Hora de la Cita:</label>
+                <select id="time" name="time" required>
+                    <!-- Aquí se mostrarán las horas disponibles -->
+                </select>
+
+                <label for="services">Servicio:</label>
+                <select id="services" name="services" required>
+                    <option value="Limpieza dental">Limpieza dental</option>
+                    <option value="Tratamiento de caries">Tratamiento de caries</option>
+                    <option value="Ortodoncia">Ortodoncia</option>
+                    <!-- Otros servicios -->
+                </select>
+
+                <button type="submit">Agendar Cita</button>
+            </form>
+        </section>
+    </div>
+</body>
+
+</html>

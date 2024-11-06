@@ -8,36 +8,43 @@ btnLogin.addEventListener('click', async () => {
     const email = document.getElementById('user-input').value;
     const password = document.getElementById('password-input').value;
 
+    Swal.fire({
+        title: 'Iniciando sesión...',
+        text: 'Por favor, espera mientras te autenticamos.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     try {
-        // Autenticar al usuario
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Verificar si el correo ha sido verificado
         if (!user.emailVerified) {
+            Swal.close();
             showAlert('¡Ups!', 'Debes verificar tu correo antes de iniciar sesión.', 'warning');
             formGroup.reset();
             return;
         }
 
-        // Redirigir a HomeScreen.html si el correo ha sido verificado
+        Swal.close();
         window.location.href = '../html/HomeScreen.html';
         console.log('Usuario autenticado:', user);
 
     } catch (error) {
+        Swal.close();
         showAlert('¡Ups!', 'Correo o contraseña incorrectos. Inténtalo de nuevo.', 'error');
         console.error('Error en la autenticación:', error);
     }
 });
 
-// Mostrar u ocultar la contraseña
 const showPassword = document.getElementById('showPassword');
 showPassword.addEventListener('change', function () {
     const passwordInput = document.getElementById('password-input');
     passwordInput.type = this.checked ? 'text' : 'password';
 });
 
-// Función para mostrar alertas con SweetAlert
 function showAlert(title, text, icon) {
     Swal.fire({
         title: title,

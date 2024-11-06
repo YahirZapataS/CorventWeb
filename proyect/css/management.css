@@ -1,0 +1,96 @@
+.Menu{
+    text-align: center;
+    padding: 50px;
+    
+}
+
+
+#custom-button {
+    background-color: white;
+    color: black; 
+    font-size: 18px; 
+    padding: 15px 30px;
+    margin: 10px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s ease; 
+}
+
+#custom-button:hover {
+    background-color: gray; 
+}
+
+.MenuDiv{
+    background-color: #32a491;
+}
+/* Ícono de perfil */
+.profile-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.profile-icon img {
+    width: 80px; /* Tamaño del icono */
+    height: 80px;
+    border-radius: 50%; /* Redondeado */
+    padding: 30px;
+    
+}
+
+/* Estilos para el sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Oculto a la izquierda por defecto */
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease; /* Transición para el deslizamiento */
+}
+
+.sidebar.active {
+    left: 0; /* Muestra el menú cuando está activo */
+}
+
+.session-info {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.menu-options {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-options li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-options li a:hover {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-height: 100vh;
+    margin-top: 10px;
+    overflow-y: auto;
+    text-align: center;
+}

@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-height: 100vh;
+    margin-top: 10px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#title {
+    color: #32a491;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+/*Estilo de Input*/
+input::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+#appointment-form input {
+    border-color: #32a491;
+    border-top: #000000;
+    border-left: #000000;
+    border-right: #000000;
+    background-color: #EAEAEA;
+    border-radius: 5px;
+    width: 40%;
+    height: 40px;
+    text-decoration: none;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}

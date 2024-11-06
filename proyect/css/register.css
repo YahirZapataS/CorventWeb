@@ -22,7 +22,7 @@ body {
     text-align: center;
 }
 
-#title-welcome {
+#title {
     color: #32a491;
     font-weight: bold;
     font-size: 50px;
@@ -149,15 +149,15 @@ Estilo boton
     transform: translate(2px, 2px);
 }
 
-/*
-Estilo boton back
-*/
-
 /*Estilo de Input*/
 input::placeholder {
     font-size: 20px;
     font-weight: bold;
 }
+
+/*
+Estilo boton back
+*/
 
 #btn-back {
     display: flex;
