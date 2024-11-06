@@ -22,6 +22,14 @@ body {
     text-align: center;
 }
 
+.user {
+        margin-bottom: 30px;
+}
+
+.time-appointment, .date-appointment, .doctor-select {
+    margin-bottom: 30px;
+}
+
 #title {
     color: #32a491;
     font-weight: bold;
@@ -34,8 +42,7 @@ input::placeholder {
     font-weight: bold;
 }
 
-
-#appointment-form input {
+.user input {
     border-color: #32a491;
     border-top: #000000;
     border-left: #000000;
@@ -48,4 +55,8 @@ input::placeholder {
     text-align: center;
     margin: 0 auto;
     display: block;
+}
+
+.user input:focus {
+    outline: none;
 }
