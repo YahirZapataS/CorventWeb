@@ -1,5 +1,5 @@
 import { db, auth } from './firebase.js';
-import { collection, addDoc, getDocs, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { collection, getDocs, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
 // Mostrar alertas con SweetAlert
 function showAlert(title, text, icon) {
@@ -62,40 +62,32 @@ async function cargarHorasDisponibles(date, doctorId) {
 
     const doctorData = doctorDoc.data();
     const availableDays = doctorData.availableDays || [];
-    let dayOfWeek = new Date(date).getDay(); // Obtiene el número de día (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
+    let dayOfWeek = new Date(date).getDay();
 
-    // Sumamos 1 al día de la semana para obtener el siguiente día
-    dayOfWeek = (dayOfWeek + 1) % 7; // Esto asegura que si es sábado (6), vuelva a domingo (0)
+    dayOfWeek = (dayOfWeek + 1) % 7;
+    const diaSeleccionado = diasSemana[dayOfWeek];
 
-    const diaSeleccionado = diasSemana[dayOfWeek]; // Convierte el número del día a su nombre en español
-
-    // Verificar si el día seleccionado está en los días disponibles del doctor
     if (!availableDays.includes(diaSeleccionado)) {
         showAlert('Día no disponible', `El doctor no atiende los ${diaSeleccionado}.`, 'warning');
-        document.getElementById('time').innerHTML = ''; // Limpiar horas
+        document.getElementById('time').innerHTML = '';
         return;
     }
 
     const startTime = parseInt(doctorData.startTime.split(':')[0]);
     const endTime = parseInt(doctorData.endTime.split(':')[0]);
 
-    // Generar las horas disponibles del doctor en intervalos de 1 hora
     const horasDisponibles = [];
     for (let hora = startTime; hora < endTime; hora++) {
         horasDisponibles.push(`${hora.toString().padStart(2, '0')}:00`);
     }
 
-    // Consultar citas ya reservadas para esa fecha y doctor
-    const citasRef = collection(db, 'appointments');
-    const q = query(citasRef, where('date', '==', date), where('doctorId', '==', doctorId));
-    const citasSnapshot = await getDocs(q);
-    const citas = citasSnapshot.docs.map(doc => doc.data());
-    const horasOcupadas = citas.map(cita => cita.time);
+    const citas = doctorData.appointments || [];
+    const horasOcupadas = citas
+        .filter(cita => cita.date === date)
+        .map(cita => cita.time);
 
-    // Filtrar horas ocupadas
     const horasRestantes = horasDisponibles.filter(hora => !horasOcupadas.includes(hora));
 
-    // Llenar el selector de horas
     const selectTime = document.getElementById('time');
     selectTime.innerHTML = '';
     horasRestantes.forEach(hora => {
@@ -111,8 +103,8 @@ document.getElementById('doctor').addEventListener('change', async () => {
     const selectedDoctor = document.getElementById('doctor').value;
     const selectedDate = document.getElementById('date').value;
 
-    await cargarServicios(selectedDoctor); // Cargar servicios del doctor
-    if (selectedDate) cargarHorasDisponibles(selectedDate, selectedDoctor); // Cargar horas
+    await cargarServicios(selectedDoctor);
+    if (selectedDate) cargarHorasDisponibles(selectedDate, selectedDoctor);
 });
 
 // Manejar cambios en la fecha para cargar horarios disponibles
@@ -122,7 +114,7 @@ document.getElementById('date').addEventListener('change', () => {
     if (selectedDoctor) cargarHorasDisponibles(selectedDate, selectedDoctor);
 });
 
-// Agendar la cita
+// Agendar la cita en el documento del doctor
 document.getElementById('appointment-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -133,20 +125,44 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
     const service = document.getElementById('services').value;
     const doctorId = document.getElementById('doctor').value;
 
+    const appointmentDateTime = new Date(`${date}T${time}`);
+    const now = new Date();
+
+    if (appointmentDateTime < now) {
+        showAlert('Hora inválida', 'No se puede agendar una cita en una hora que ya ha pasado.', 'error');
+        return;
+    }
+
     try {
-        const citasRef = collection(db, 'appointments');
-        await addDoc(citasRef, {
-            name,
-            email,
-            date,
-            time,
-            service,
-            doctorId,
-            status: 'Pendiente'
+        const doctorDocRef = doc(db, 'doctors', doctorId);
+        const doctorDoc = await getDoc(doctorDocRef);
+
+        if (!doctorDoc.exists()) {
+            showAlert('Error', 'El doctor seleccionado no existe.', 'error');
+            return;
+        }
+
+        const doctorData = doctorDoc.data();
+        const citas = doctorData.appointments || [];
+
+        const citaOcupada = citas.some(cita => cita.date === date && cita.time === time);
+        if (citaOcupada) {
+            showAlert('Hora ocupada', 'La hora seleccionada ya está reservada por otro cliente.', 'warning');
+            return;
+        }
+
+        await updateDoc(doctorDocRef, {
+            appointments: arrayUnion({
+                name,
+                email,
+                date,
+                time,
+                service,
+                status: 'Pendiente'
+            })
         });
 
         showAlert('Cita agendada', 'Tu cita ha sido programada correctamente.', 'success');
-        document.getElementById('appointment-form').innerHTML = '';
 
     } catch (error) {
         showAlert('Error', 'Hubo un problema al agendar la cita. Intenta de nuevo.', 'error');
