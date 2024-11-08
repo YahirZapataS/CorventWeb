@@ -86,7 +86,7 @@ async function cargarHorasDisponibles(date, doctorId) {
     }
 
     // Consultar citas ya reservadas para esa fecha y doctor
-    const citasRef = collection(db, 'citas');
+    const citasRef = collection(db, 'appointments');
     const q = query(citasRef, where('date', '==', date), where('doctorId', '==', doctorId));
     const citasSnapshot = await getDocs(q);
     const citas = citasSnapshot.docs.map(doc => doc.data());
@@ -134,7 +134,7 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
     const doctorId = document.getElementById('doctor').value;
 
     try {
-        const citasRef = collection(db, 'citas');
+        const citasRef = collection(db, 'appointments');
         await addDoc(citasRef, {
             name,
             email,

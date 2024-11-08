@@ -238,3 +238,36 @@ body {
 .footer a:hover {
     text-decoration: underline;
 }
+
+#appointment-cards {
+    margin: 20px;
+}
+
+.appointments-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.appointment-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 200px;
+    position: relative;
+}
+
+.appointment-card .priority-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.appointment-card h3 {
+    margin: 0;
+}
+
+.appointment-card p {
+    margin: 5px 0;
+}

@@ -1,27 +1,51 @@
-// Función para alternar la visibilidad de la barra lateral
-function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("active");
+import { db } from './firebase.js';
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-    // Si el sidebar está abierto, agrega el event listener para detectar clics fuera
-    if (sidebar.classList.contains("active")) {
-        document.addEventListener("click", handleOutsideClick);
-    } else {
-        document.removeEventListener("click", handleOutsideClick);
-    }
+// Función para cargar y renderizar las citas
+async function cargarCitas() {
+    const appointmentsContainer = document.getElementById('appointments-container');
+    appointmentsContainer.innerHTML = ''; // Limpiar cualquier contenido previo
+
+    const appointmentsRef = collection(db, 'appointments');
+    const appointmentsSnapshot = await getDocs(appointmentsRef);
+
+    appointmentsSnapshot.forEach(doc => {
+        const appointment = doc.data();
+        const appointmentCard = document.createElement('div');
+        appointmentCard.classList.add('appointment-card');
+
+        // Ícono de prioridad basado en el estado de la cita
+        const priorityIcon = document.createElement('span');
+        priorityIcon.classList.add('priority-icon');
+
+        switch (appointment.priority) {
+            case 'Alta':
+                priorityIcon.textContent = '⚠️';
+                break;
+            case 'Media':
+                priorityIcon.textContent = '🟡';
+                break;
+            case 'Baja':
+                priorityIcon.textContent = '✅';
+                break;
+            default:
+                priorityIcon.textContent = '📅';
+                break;
+        }
+
+        // Agregar contenido de la cita a la tarjeta
+        appointmentCard.innerHTML = `
+            <h3>${appointment.name}</h3>
+            <p>Status: ${appointment.status}</p>
+            <p>Fecha: ${appointment.date}</p>
+            <p>Hora: ${appointment.time}</p>
+        `;
+
+        // Añadir ícono de prioridad
+        appointmentCard.appendChild(priorityIcon);
+        appointmentsContainer.appendChild(appointmentCard);
+    });
 }
 
-// Maneja el clic fuera del sidebar para cerrarlo
-function handleOutsideClick(event) {
-    const sidebar = document.getElementById("sidebar");
-    const profileIcon = document.getElementById("profile-icon");
-
-    // Verifica si el clic ocurrió fuera del sidebar y del icono de perfil
-    if (!sidebar.contains(event.target) && !profileIcon.contains(event.target)) {
-        sidebar.classList.remove("active");
-        document.removeEventListener("click", handleOutsideClick); // Quita el event listener
-    }
-}
-
-// Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
-document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
+// Cargar citas al cargar la página
+document.addEventListener('DOMContentLoaded', cargarCitas);
