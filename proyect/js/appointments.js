@@ -172,3 +172,8 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
 
 // Inicializar la carga de doctores al cargar la página
 cargarDoctores();
+
+const btnBack = document.getElementById('btn-back');
+btnBack.addEventListener('click', async () => {
+            window.location.replace('homePatients.html');
+        });

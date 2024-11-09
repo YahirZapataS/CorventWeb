@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <title>Mundo Dental - Clínica Dental</title>
+    <link rel="stylesheet" href="../css/homePatients.css">
+    <script defer src="../js/homePatients.js"></script>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Mundo Dental">
+            <h1>Mundo Dental</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#especialidades">Especialidades</a></li>
+                <li><a href="#doctores">Doctores</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#horarios">Horarios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección de Bienvenida -->
+    <section class="welcome-section">
+        <h1>CORVENT Equilibrio Médico Dental</h1>
+        <p>Agenda tu primera cita gratuita</p>
+        <button id="btn-schedule" type="button">
+            <div class="sign"><svg viewBox="0 0 512 512">
+                    <path
+                        d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z">
+                    </path>
+                </svg></div>
+            <div class="text">Agenda Ahora</div>
+        </button>
+    </section>
+
+    <!-- Información de la Clínica -->
+    <section id="especialidades" class="info-section">
+        <h2>Nuestras Especialidades</h2>
+        <p>Ofrecemos una amplia gama de servicios dentales: ortodoncia, endodoncia, limpieza dental, y más.</p>
+    </section>
+
+    <section id="doctores" class="info-section">
+        <h2>Conoce a Nuestros Doctores</h2>
+        <p>Un equipo de profesionales dedicados a cuidar tu sonrisa.</p>
+        <!-- Aquí se pueden añadir perfiles de doctores con sus fotos y especialidades -->
+    </section>
+
+    <section id="testimonios" class="info-section">
+        <h2>Testimonios</h2>
+        <p>Lo que nuestros pacientes dicen de nosotros.</p>
+        <!-- Testimonios de pacientes -->
+    </section>
+
+    <section id="horarios" class="info-section">
+        <h2>Horarios</h2>
+        <p>De Lunes a Viernes: 9:00 AM - 7:00 PM <br>Sábado: 10:00 AM - 3:00 PM</p>
+    </section>
+
+    <!-- Mapa de Ubicación -->
+    <section id="map" class="map-section">
+        <h2>Ubicación</h2>
+        <p>Visítanos en nuestra clínica dental, en el corazón de la ciudad.</p>
+        <!-- Integración de Google Maps -->
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093744!2d144.95373631531093!3d-37.8162791797517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f3f4f63f%3A0xf4fdf57636c0b344!2sOpenAI!5e0!3m2!1sen!2sus!4v1615164568769!5m2!1sen!2sus"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+
+    <!-- Botón para Agendar Cita -->
+    <section id="appointment-form" class="appointment-section">
+        <h2>Agenda tu Cita</h2>
+        <p>Rellena el formulario para agendar tu próxima cita con nosotros.</p>
+        <button onclick="window.location.href='appointments.html'">Agendar Ahora</button>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Medisoft Digital Solutions. Todos los derechos reservados.</p>
+        <a href="contact.html">Contáctanos</a> | <a href="terms.html">Términos y Condiciones</a>
+    </footer>
+</body>
+</html>
