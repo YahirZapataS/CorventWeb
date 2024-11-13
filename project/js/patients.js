@@ -1,5 +1,7 @@
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-import { auth } from './firebase.js';
+import { auth, db } from './firebase.js';
+import { collection, addDoc, updateDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+
 // Referencia a la colección "patients" en Firestore
 const patientsCollection = collection(db, "patients");
 

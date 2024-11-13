@@ -13,10 +13,9 @@ onAuthStateChanged(auth, async (user) => {
             if (!querySnapshot.empty) {
                 querySnapshot.forEach((doc) => {
                     const doctorData = doc.data();
-                    const doctorName = doctorData.name || 'Doctor';
-                    const doctorLastName = doctorData.lastname || 'Doctor';
+                    const doctorName = doctorData.name;
+                    const doctorLastName = doctorData.lastname;
                     document.getElementById('welcome-message').textContent = `Bienvenido, ${doctorName}`;
-                    document.getElementById('welcome-message-home').textContent = `Bienvenido, Dr. ${doctorName} ${doctorLastName}`;
                 });
             } else {
                 console.error('No se encontró un doctor con este correo electrónico.');
