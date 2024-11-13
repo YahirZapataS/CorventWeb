@@ -31,9 +31,31 @@ async function displayPatients() {
         patientsTableBody.appendChild(patientRow);
     });
 }
-
 // Función para agregar un paciente
 patientForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    let lastId=await getLastId();
+    lastId++;
+
+    const newPatient = {
+        name: document.getElementById("name").value,
+        age: Number(document.getElementById("age").value),
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        id: lastId
+    };
+
+    try {
+        await addDoc(patientsCollection, newPatient);
+        alert("Paciente agregado exitosamente");
+        patientForm.reset();
+        displayPatients();
+    } catch (error) {
+        console.error("Error al agregar paciente:", error);
+    }
+}); 
+// Función para editar un paciente
+patientForm.addEventListener("update", async (e) => {
     e.preventDefault();
 
     const newPatient = {
@@ -52,7 +74,7 @@ patientForm.addEventListener("submit", async (e) => {
         console.error("Error al agregar paciente:", error);
     }
 });
-
+//esperar
 // Función para editar un paciente
 window.editPatient = async (id, name, age, email, phone) => {
     document.getElementById("name").value = name;
@@ -84,6 +106,7 @@ window.editPatient = async (id, name, age, email, phone) => {
     };
 };
 
+
 // Función para eliminar un paciente
 window.deletePatient = async (id) => {
     const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este paciente?");
@@ -98,6 +121,20 @@ window.deletePatient = async (id) => {
         }
     }
 };
+async function getLastId() {
+    const patientsRef =collection(db,'patients');
+    const snapshot =await getDocs(patientsRef);
+    let maxId=0;
+
+    snapshot.forEach(doc =>{
+        const patient = doc.data();
+        if(patient.id > maxId){
+            maxId = patient.id;
+        }
+    });
+    return maxId;
+    
+}
 // Función para alternar la visibilidad de la barra lateral
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -123,8 +160,10 @@ function handleOutsideClick(event) {
     }
 }
 
+
 // Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
 document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
 
 // Llama a la función para mostrar los pacientes al cargar la página
 displayPatients();
+
