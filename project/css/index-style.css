@@ -1,0 +1,184 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-height: 100vh;
+    margin-top: 10px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#title-welcome {
+    color: #32a491;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.user {
+    margin-bottom: 30px;
+}
+
+.password {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: auto;
+}
+
+#user-input {
+    border-color: #32a491;
+    border-top: #000000;
+    border-left: #000000;
+    border-right: #000000;
+    background-color: #EAEAEA;
+    border-radius: 5px;
+    width: 40%;
+    height: 40px;
+    text-decoration: none;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+#password-input {
+    border-color: #32a491;
+    border-top: #000000;
+    border-left: #000000;
+    border-right: #000000;
+    background-color: #EAEAEA;
+    border-radius: 5px;
+    width: 40%;
+    height: 40px;
+    text-decoration: none;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+#user-input:focus, #password-input:focus {
+    outline: none;
+}
+
+/* Recuperar contraseña*/
+
+.forgot-password{
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.forgot-password a {
+    color: #32a491;
+}
+
+.forgot-password a:hover {
+    color: #0edfbf;
+}
+
+.register {
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.register a {
+    color: #32a491;
+}
+
+.register a:hover {
+    color: #0edfbf;
+}
+
+
+#showPassword {
+    margin-top: 10px;
+}
+
+/*
+Estilo Botón
+*/
+
+#btn-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: #32a491;
+    margin-top: 10px;
+}
+
+.sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign svg {
+    width: 17px;
+}
+
+.sign svg path {
+    fill: white;
+}
+
+.text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition-duration: .3s;
+}
+
+#btn-login:hover {
+    width: 125px;
+    border-radius: 40px;
+    transition-duration: .3s;
+}
+
+#btn-login:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px;
+}
+
+#btn-login:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+}
+
+#btn-login:active {
+    transform: translate(2px, 2px);
+}
+
+/*Estilo de Input*/
+input::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+}
