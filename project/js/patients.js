@@ -1,5 +1,5 @@
-import { auth, db } from './firebase.js';
-import { collection, addDoc, updateDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { db } from './firebase.js';
+import { collection, addDoc, updateDoc, doc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
 
 // Referencia a la colección "patients" en Firestore
@@ -141,6 +141,14 @@ function handleOutsideClick(event) {
         sidebar.classList.remove("active");
         document.removeEventListener("click", handleOutsideClick); // Quita el event listener
     }
+}
+
+function showAlert(title, text, icon) {
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon
+    });
 }
 
 
