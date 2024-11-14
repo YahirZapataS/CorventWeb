@@ -41,7 +41,8 @@ patientForm.addEventListener("submit", async (e) => {
 
     if (submitBtn.innerText === "Agregar Paciente") {
         // Lógica de agregar paciente
-        const lastId = await getLastId();
+        let lastId = await getLastId();
+        lastId++;
         const newPatient = {
             name: document.getElementById("name").value,
             age: Number(document.getElementById("age").value),
@@ -149,6 +150,19 @@ function showAlert(title, text, icon) {
         text: text,
         icon: icon
     });
+}
+
+async function getLastId() {
+    const patientsRef =collection(db,'patients');
+    const snapshot =await getDocs(patientsRef);
+    let maxId=0;
+    snapshot.forEach(doc =>{
+        const patient = doc.data();
+        if(patient.id > maxId){
+            maxId = patient.id;
+        }
+    });
+    return maxId;
 }
 
 
