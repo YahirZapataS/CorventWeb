@@ -42,12 +42,13 @@
                 <div class="doctor-select">
                     <label for="doctor">Doctor:</label>
                     <select id="doctor" name="doctor" required>
+                        <option value="" disabled selected>Selecciona un doctor</option>
                         <!-- Aquí se mostrarán los doctores disponibles -->
                     </select>
                 </div>
                 <div class="date-appointment">
                     <label for="date">Fecha de la Cita:</label>
-                    <input type="text" id="date" name="date" required>
+                    <input type="text" id="date" name="date" placeholder="Selecciona la fecha" required>
                 </div>
                 <div class="time-appointment">
                     <label for="time">Hora de la Cita:</label>
@@ -59,6 +60,7 @@
                 <div class="service-select">
                     <label for="services">Servicio:</label>
                     <select id="services" name="services" required>
+                        <option value="" disabled selected>Selecciona un servicio</option>
                         <!-- Aquí se mostrarán los servicios del doctor -->
                     </select>
                 </div>

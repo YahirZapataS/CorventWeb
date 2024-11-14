@@ -37,7 +37,7 @@ body {
 }
 
 /*Estilo de Input*/
-input::placeholder {
+.user input::placeholder {
     font-size: 20px;
     font-weight: bold;
 }
@@ -49,7 +49,7 @@ input::placeholder {
     border-right: #000000;
     background-color: #EAEAEA;
     border-radius: 5px;
-    width: 40%;
+    width: 100%;
     height: 40px;
     text-decoration: none;
     text-align: center;
@@ -60,6 +60,115 @@ input::placeholder {
 .user input:focus {
     outline: none;
 }
+
+/* Estilos generales del contenedor */
+.doctor-select, .service-select {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos de la etiqueta */
+.doctor-select label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+.service-select label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+/* Estilos del select */
+.doctor-select select {
+    appearance: none;
+    -webkit-appearance: none; /* Safari & Chrome */
+    -moz-appearance: none; /* Firefox */
+    padding: 0.75em;
+    border: 2px solid #32a491;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f9f9f9;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23007bff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75em center;
+    background-size: 0.65em auto;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-select select {
+    appearance: none;
+    -webkit-appearance: none; /* Safari & Chrome */
+    -moz-appearance: none; /* Firefox */
+    padding: 0.75em;
+    border: 2px solid #32a491;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f9f9f9;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23007bff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75em center;
+    background-size: 0.65em auto;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover y focus */
+.doctor-select select:hover, .service-select select:hover {
+    border-color: #32a491;
+}
+
+.doctor-select select:focus, .service-select select:focus {
+    outline: none;
+    border-color: #32a491;
+    box-shadow: 0 0 0 3px #32a491;
+}
+
+/* Estilos generales del contenedor */
+.date-appointment {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos de la etiqueta */
+.date-appointment label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+/* Estilos del input */
+.date-appointment input[type="text"] {
+    padding: 0.75em;
+    border: 2px solid #32a491;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #f9f9f9;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23007bff' d='M2 2h16v2H2V2zm1 4h14v12H3V6zm2 2v2h2V8H5zm4 0v2h2V8H9zm4 0v2h2V8h-2z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75em center;
+    background-size: 1em auto;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover y focus */
+.date-appointment input[type="text"]:hover {
+    border-color: #32a491;
+}
+
+.date-appointment input[type="text"]:focus {
+    outline: none;
+    border-color: #32a491;
+    box-shadow: 0 0 0 3px #32a491;
+}
+
 
 /*
 Estilo boton back
