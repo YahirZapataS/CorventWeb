@@ -194,17 +194,17 @@ body {
     background-color: #32a491;
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 40px 20px;
     position: relative;
 }
-
 /* Ícono del perfil en la esquina superior izquierda */
 .profile-icon {
     position: absolute;
-    top: 19px;
-    left: 30px;
+    top: 50px;
+    left: 40px;
     cursor: pointer;
     padding: 5px;
+    
 }
 
 .profile-icon img {
