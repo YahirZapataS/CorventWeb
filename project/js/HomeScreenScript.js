@@ -28,6 +28,8 @@ function handleOutsideClick(event) {
 
 // Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
 document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
+
+
 // Función para cargar y renderizar las citas ordenadas por prioridad
 async function cargarCitas() {
     const appointmentsContainer = document.getElementById('appointments-container');
