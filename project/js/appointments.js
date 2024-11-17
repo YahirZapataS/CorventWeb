@@ -114,7 +114,7 @@ document.getElementById('date').addEventListener('change', () => {
     if (selectedDoctor) cargarHorasDisponibles(selectedDate, selectedDoctor);
 });
 
-// Agendar la cita en el documento del doctor
+// Agendar la cita en el documento del doctor y enviar el correo
 document.getElementById('appointment-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -124,6 +124,7 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
     const time = document.getElementById('time').value;
     const service = document.getElementById('services').value;
     const doctorId = document.getElementById('doctor').value;
+    const doctorName = document.getElementById('doctor').selectedOptions[0].textContent;
 
     const appointmentDateTime = new Date(`${date}T${time}`);
     const now = new Date();
@@ -151,6 +152,17 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
             return;
         }
 
+        // Muestra la ventana de carga mientras se guarda la cita y se envía el correo
+        Swal.fire({
+            title: 'Agendando cita...',
+            text: 'Por favor espera mientras se procesa tu cita.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading(); // Mostrar indicador de carga
+            }
+        });
+
+        // Guardar la cita en Firestore
         await updateDoc(doctorDocRef, {
             appointments: arrayUnion({
                 name,
@@ -162,7 +174,29 @@ document.getElementById('appointment-form').addEventListener('submit', async (e)
             })
         });
 
-        showAlert('Cita agendada', 'Tu cita ha sido programada correctamente.', 'success');
+        // Realizar la solicitud al servidor para enviar el correo
+        const response = await fetch('http://localhost:3000/send-confirmation-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                name: name,
+                date: date,
+                time: time,
+                service: service,
+                doctorName: doctorName
+            })
+        });
+
+        // Si todo salió bien, muestra el mensaje de éxito
+        Swal.fire({
+            icon: 'success',
+            title: 'Cita agendada',
+            text: 'Tu cita ha sido programada correctamente. Revisa tu correo para confirmarla.',
+            confirmButtonText: 'Aceptar'
+        });
 
     } catch (error) {
         showAlert('Error', 'Hubo un problema al agendar la cita. Intenta de nuevo.', 'error');
@@ -175,5 +209,5 @@ cargarDoctores();
 
 const btnBack = document.getElementById('btn-back');
 btnBack.addEventListener('click', async () => {
-            window.location.replace('homePatients.html');
-        });
+    window.location.replace('homePatients.html');
+});

@@ -205,3 +205,72 @@ Estilo boton back
     box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
     transform: translateY(-2px);
 }
+
+/* Estilo Botón */
+#btn-schedule {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s, border-radius 0.3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: #32a491;
+    margin-top: 10px;
+}
+
+.sign {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s;
+}
+
+.sign svg {
+    width: 17px;
+}
+
+.sign svg path {
+    fill: white;
+}
+
+.text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition: opacity 0.3s, width 0.3s;
+}
+
+#btn-schedule:hover {
+    width: 125px;
+    border-radius: 40px;
+}
+
+#btn-schedule:hover .sign {
+    width: 30%;
+    padding-left: 20px;
+}
+
+#btn-schedule:hover .text {
+    opacity: 1;
+    width: 70%;
+    padding-right: 10px;
+}
+
+#btn-schedule:active {
+    transform: translate(2px, 2px);
+}
+
+.info-section h2 {
+    font-size: 35px;
+}
