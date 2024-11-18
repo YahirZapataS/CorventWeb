@@ -30,7 +30,7 @@ function showAlert(title, text, icon) {
 
 const btnBack = document.getElementById('btn-back');
 btnBack.addEventListener('click', async () => {
-    window.location.replace('index.html');
+    window.location.replace('login.html');
 });
 
 function showAlertWithRedirection(title, text, icon) {
@@ -41,7 +41,7 @@ function showAlertWithRedirection(title, text, icon) {
         confirmButtonText: 'OK'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = 'index.html';
+            window.location.href = 'login.html';
         }
     });
 }

@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         btnBack.addEventListener('click', async () => {
-            window.location.replace('index.html');
+            window.location.replace('login.html');
         });
     } else {
         console.error('El formulario no se encuentra en el DOM.');
@@ -88,7 +88,7 @@ function showAlertWithRedirect(title, text, icon) {
         confirmButtonText: 'OK'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = 'index.html';
+            window.location.href = 'login.html';
         }
     });
 }

@@ -28,10 +28,10 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-document.querySelector('a[href="index.html"]').addEventListener('click', (e) => {
+document.querySelector('a[href="login.html"]').addEventListener('click', (e) => {
     e.preventDefault();
     signOut(auth).then(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
     }).catch((error) => {
         console.error('Error al cerrar sesión:', error);
     });
