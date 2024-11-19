@@ -7,6 +7,7 @@
     padding: 40px 20px;
     position: relative;
 }
+
 /* Menú horizontal */
 .Menu {
     display: flex;
@@ -32,6 +33,7 @@
     background-color: white;
     color: #32a491;
 }
+
 /* Ícono del perfil en la esquina superior izquierda */
 .profile-icon {
     position: absolute;
@@ -39,7 +41,7 @@
     left: 40px;
     cursor: pointer;
     padding: 5px;
-    
+
 }
 
 .profile-icon img {
@@ -47,6 +49,7 @@
     height: 70px;
     border-radius: 50%;
 }
+
 /* Estilos para el sidebar */
 .sidebar {
     width: 250px;
@@ -55,15 +58,19 @@
     color: white;
     position: fixed;
     top: 0;
-    left: -250px; /* Oculto a la izquierda por defecto */
+    left: -250px;
+    /* Oculto a la izquierda por defecto */
     padding-top: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: left 0.3s ease; /* Transición para el deslizamiento */
+    transition: left 0.3s ease;
+    /* Transición para el deslizamiento */
 }
 
 .sidebar.active {
-    left: 0; /* Muestra el menú cuando está activo */
+    left: 0;
+    /* Muestra el menú cuando está activo */
 }
+
 .session-info {
     text-align: center;
     margin-bottom: 30px;
@@ -87,10 +94,29 @@
     background-color: #555;
     border-radius: 4px;
 }
+
 /* Reset básico */
-.profile-icon{
+.profile-icon {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+}
+
+/* Centrar el diente con una animación de escalado al hacer hover */
+circle {
+    transition: transform 0.1s ease, fill 0.3s ease;
+    /* Animación suave para el cambio */
+    
+
+}
+
+/* Cuando el mouse pase sobre el diente */
+circle:hover {
+    transform: scale(1.2);
+    /* Aumentar tamaño */
+    fill: lightblue;
+    /* Cambiar el color del diente */
+    cursor: pointer;
+    /* Cambiar el cursor para indicar que es clickeable */
 }
