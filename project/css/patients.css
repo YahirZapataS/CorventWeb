@@ -171,22 +171,6 @@ button.action-btn:hover {
         font-size: 1.6rem;
     }
 }
-/* Reset básico y fuente */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background-color: #f8f9fa;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
 
 /* Contenedor del menú */
 .MenuDiv {
@@ -295,11 +279,4 @@ body {
 .menu-options li a:hover {
     background-color: #555;
     border-radius: 4px;
-}
-/* Reset básico */
-.profile-icon{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
