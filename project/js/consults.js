@@ -52,64 +52,53 @@ function handleOutsideClick(event) {
 // Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
 document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
 
-// Seleccionamos todos los dientes (círculos del SVG)
-const teeth = document.querySelectorAll('circle');
+document.addEventListener("DOMContentLoaded", () => {
+  const teeth = document.querySelectorAll(".tooth");
 
-// Paciente activo
-const pacienteID = "12345"; // Reemplaza con el ID del paciente actual
+  teeth.forEach(tooth => {
+      tooth.addEventListener("click", () => {
+          const selectedTooth = tooth.getAttribute("data-tooth");
 
-// Asignamos interactividad a cada diente
-teeth.forEach((tooth) => {
-  tooth.addEventListener('click', async () => {
-    const toothId = tooth.id;
-
-    // Solicitar el tratamiento realizado usando SweetAlert2
-    const { value: action } = await Swal.fire({
-      title: `Tratamiento en el diente ${toothId}`,
-      input: 'text',
-      inputLabel: 'Escribe el tratamiento realizado:',
-      inputPlaceholder: 'Ejemplo: Obturación, Limpieza',
-      showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar'
-    });
-
-    if (action) {
-      // Cambia el color del diente para indicar que se trató
-      tooth.setAttribute('fill', 'yellow'); // Cambia el color según el tratamiento
-
-      // Guarda los datos en Firebase
-      saveToothData(toothId, action);
-    }
+          Swal.fire({
+            title: `Diente ${selectedTooth}`,
+            html: `
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <label for="diagnosis" style="font-weight: bold; display: block; margin-bottom: 5px;">Diagnóstico:</label>
+                        <textarea id="diagnosis" class="swal2-textarea" placeholder="Escribe el diagnóstico"></textarea>
+                    </div>
+                    <div>
+                        <label for="procedure" style="font-weight: bold; display: block; margin-bottom: 5px;">Procedimiento:</label>
+                        <input type="text" id="procedure" class="swal2-input" placeholder="Escribe el procedimiento">
+                    </div>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+                const diagnosis = Swal.getPopup().querySelector('#diagnosis').value;
+                const procedure = Swal.getPopup().querySelector('#procedure').value;
+        
+                if (!diagnosis || !procedure) {
+                    Swal.showValidationMessage(`Ambos campos son obligatorios`);
+                    return false;
+                }
+        
+                return { diagnosis, procedure };
+            }
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  const { diagnosis, procedure } = result.value;
+                  Swal.fire(
+                      'Guardado',
+                      `Diente ${selectedTooth} guardado con éxito.<br>
+                      <b>Diagnóstico:</b> ${diagnosis}<br>
+                      <b>Procedimiento:</b> ${procedure}`,
+                      'success'
+                  );
+              }
+          });
+      });
   });
 });
-
-// Función para guardar datos en Firebase
-async function saveToothData(toothId, action) {
-  try {
-    // Guarda en Firebase (Firestore)
-    await db.collection("odontogramas").doc(pacienteID).set({
-      [toothId]: {
-        treatment: action,
-        date: new Date().toISOString(),
-      }
-    }, { merge: true });
-
-    // Mensaje de éxito usando SweetAlert2
-    Swal.fire({
-      icon: 'success',
-      title: '¡Guardado!',
-      text: `Diente ${toothId}: ${action} ha sido registrado.`,
-      timer: 2000,
-      showConfirmButton: false
-    });
-  } catch (error) {
-    // Mensaje de error usando SweetAlert2
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: `Hubo un problema al guardar el diente ${toothId}. Intenta de nuevo.`,
-    });
-    console.error("Error al guardar en Firebase:", error);
-  }
-}

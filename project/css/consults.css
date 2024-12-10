@@ -103,20 +103,197 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* Centrar el diente con una animación de escalado al hacer hover */
-circle {
-    transition: transform 0.1s ease, fill 0.3s ease;
-    /* Animación suave para el cambio */
-    
 
+
+
+.odontogram-container {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
-/* Cuando el mouse pase sobre el diente */
-circle:hover {
-    transform: scale(1.2);
-    /* Aumentar tamaño */
-    fill: lightblue;
-    /* Cambiar el color del diente */
+h1 {
+    margin-bottom: 20px;
+    color: #4caf50;
+}
+
+.teeth-grid {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.teeth-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.tooth {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border: 2px solid #bbb;
+    border-radius: 20px;
+    position: center;
     cursor: pointer;
-    /* Cambiar el cursor para indicar que es clickeable */
+    
+}
+
+.tooth:hover {
+    background: #40c0a4;
+    transform: scale(1.2);
+}
+
+.tooth::before {
+    content: attr(data-tooth);
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #777;
+}
+
+/* Contenedor principal del formulario */
+.form-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Título del formulario */
+.form-container h1 {
+    text-align: center;
+    color: #32a491;
+    margin-bottom: 20px;
+}
+
+/* Estilos para los grupos de formulario */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Etiquetas de los campos */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Campos de texto y áreas de texto */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Cambios de estilo en enfoque */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #32a491;
+    outline: none;
+}
+
+/* Botones de acción */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Estilo de los botones */
+.btn-submit,
+.btn-reset {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Botón guardar */
+.btn-submit {
+    background-color: #32a491;
+}
+
+.btn-submit:hover {
+    background-color: #2a8c78;
+}
+
+/* Botón limpiar */
+.btn-reset {
+    background-color: #d9534f;
+}
+
+.btn-reset:hover {
+    background-color: #c9302c;
+}
+/* Estilos para los formularios dentro de SweetAlert */
+.swal2-popup {
+    font-family: 'Arial', sans-serif; /* Fuente legible */
+    font-size: 16px; /* Tamaño adecuado */
+    text-align: left;
+}
+
+.swal2-title {
+    font-size: 20px; /* Título más visible */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.swal2-html-container {
+    font-size: 14px; /* Para el contenido de HTML */
+    color: #333; /* Mejor contraste */
+}
+
+/* Campos personalizados */
+.swal2-input, .swal2-textarea {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #333; /* Texto oscuro */
+    border: 1px solid #ccc; /* Borde visible */
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.swal2-input::placeholder, .swal2-textarea::placeholder {
+    color: #999; /* Texto del placeholder */
+}
+
+/* Botones */
+.swal2-confirm {
+    background-color: #6c63ff; /* Color más atractivo */
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.swal2-cancel {
+    background-color: #666; /* Color neutro */
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 5px;
 }
