@@ -1,6 +1,6 @@
 // Importar Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"; 
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
 // Configuración de Firebase
@@ -12,17 +12,126 @@ const firebaseConfig = {
     messagingSenderId: "29880111362",
     appId: "1:29880111362:web:64d388d29fb9fb5f86321b",
     measurementId: "G-MCRY7D50F2"
-  };
+};
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
-
-// Inicializar Firestore
 const db = getFirestore(app);
 
-// Inicializar Auth (si lo necesitas)
-const auth = getAuth(app);
+// Obtener datos del odontograma
+function getOdontogramData() {
+    const teethElements = document.querySelectorAll(".teeth-grid .tooth");
+    const odontogram = {};
 
+    teethElements.forEach(tooth => {
+        const toothId = tooth.getAttribute("data-tooth");
+        const diagnosis = tooth.getAttribute("data-diagnosis") || "";
+        const procedure = tooth.getAttribute("data-procedure") || "";
+
+        odontogram[toothId] = {
+            diagnosis,
+            procedure
+        };
+    });
+
+    return odontogram;
+}
+
+// Agregar evento al formulario de historia clínica
+document.getElementById("clinical-history-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    // Obtener los valores de los campos del formulario
+    const patientName = document.getElementById("patient-name").value;
+    const age = parseInt(document.getElementById("age").value);
+    const gender = document.getElementById("gender").value;
+    const symptoms = document.getElementById("symptoms").value;
+    const diagnosis = document.getElementById("diagnosis").value;
+    const treatment = document.getElementById("treatment").value;
+
+    // Obtener datos del odontograma
+    const odontogram = getOdontogramData();
+
+    try {
+        // Guardar los datos en la colección "HistoriaClinica" en Firestore
+        await addDoc(collection(db, "HistoriaClinica"), {
+            patientName,
+            age,
+            gender,
+            symptoms,
+            diagnosis,
+            treatment,
+            odontogram,
+            createdAt: new Date()
+        });
+
+        
+        // Limpiar el formulario
+        document.getElementById("clinical-history-form").reset();
+
+        // Limpiar los datos del odontograma
+        const teethElements = document.querySelectorAll(".teeth-grid .tooth");
+        teethElements.forEach(tooth => {
+            tooth.removeAttribute("data-diagnosis");
+            tooth.removeAttribute("data-procedure");
+        });
+
+    } catch (error) {
+        // Manejar errores
+        console.error("Error al guardar en Firestore:", error);
+        alert("Error: Hubo un problema al guardar la historia clínica. Por favor, intenta nuevamente.");
+    }
+});
+
+// Lógica para interactuar con los dientes del odontograma
+document.querySelectorAll(".teeth-grid .tooth").forEach(tooth => {
+    tooth.addEventListener("click", () => {
+        const toothId = tooth.getAttribute("data-tooth");
+
+        // Mostrar un formulario de SweetAlert para ingresar diagnóstico y procedimiento
+        Swal.fire({
+            title: `Diente ${toothId}`,
+            html: `
+                <label for="swal-diagnosis" style="display: block; text-align: left;">Diagnóstico:</label>
+                <textarea id="swal-diagnosis" class="swal2-textarea" placeholder="Escribe el diagnóstico"></textarea>
+                <label for="swal-procedure" style="display: block; text-align: left; margin-top: 10px;">Procedimiento:</label>
+                <textarea id="swal-procedure" class="swal2-textarea" placeholder="Escribe el procedimiento"></textarea>
+            `,
+            showCancelButton: true,
+            confirmButtonText: "Guardar",
+            cancelButtonText: "Cancelar",
+            preConfirm: () => {
+                const diagnosis = document.getElementById("swal-diagnosis").value;
+                const procedure = document.getElementById("swal-procedure").value;
+
+                if (!diagnosis || !procedure) {
+                    Swal.showValidationMessage("Ambos campos son obligatorios");
+                    return false;
+                }
+
+                return { diagnosis, procedure };
+            }
+        }).then(result => {
+            if (result.isConfirmed) {
+                const { diagnosis, procedure } = result.value;
+
+                // Guardar los datos en el diente seleccionado
+                tooth.setAttribute("data-diagnosis", diagnosis);
+                tooth.setAttribute("data-procedure", procedure);
+
+                // Cambiar el color del diente
+                tooth.classList.add("has-data");
+                
+                // Confirmar que los datos fueron guardados
+                Swal.fire({
+                    icon: "success",
+                    title: "Guardado",
+                    text: `El diagnóstico y procedimiento para el diente ${toothId} fueron guardados con éxito.`,
+                });
+            }
+        });
+    });
+});
 
 // Función para alternar la visibilidad de la barra lateral
 function toggleSidebar() {
@@ -51,54 +160,3 @@ function handleOutsideClick(event) {
 
 // Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
 document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
-
-document.addEventListener("DOMContentLoaded", () => {
-  const teeth = document.querySelectorAll(".tooth");
-
-  teeth.forEach(tooth => {
-      tooth.addEventListener("click", () => {
-          const selectedTooth = tooth.getAttribute("data-tooth");
-
-          Swal.fire({
-            title: `Diente ${selectedTooth}`,
-            html: `
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <div>
-                        <label for="diagnosis" style="font-weight: bold; display: block; margin-bottom: 5px;">Diagnóstico:</label>
-                        <textarea id="diagnosis" class="swal2-textarea" placeholder="Escribe el diagnóstico"></textarea>
-                    </div>
-                    <div>
-                        <label for="procedure" style="font-weight: bold; display: block; margin-bottom: 5px;">Procedimiento:</label>
-                        <input type="text" id="procedure" class="swal2-input" placeholder="Escribe el procedimiento">
-                    </div>
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Guardar',
-            cancelButtonText: 'Cancelar',
-            preConfirm: () => {
-                const diagnosis = Swal.getPopup().querySelector('#diagnosis').value;
-                const procedure = Swal.getPopup().querySelector('#procedure').value;
-        
-                if (!diagnosis || !procedure) {
-                    Swal.showValidationMessage(`Ambos campos son obligatorios`);
-                    return false;
-                }
-        
-                return { diagnosis, procedure };
-            }
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  const { diagnosis, procedure } = result.value;
-                  Swal.fire(
-                      'Guardado',
-                      `Diente ${selectedTooth} guardado con éxito.<br>
-                      <b>Diagnóstico:</b> ${diagnosis}<br>
-                      <b>Procedimiento:</b> ${procedure}`,
-                      'success'
-                  );
-              }
-          });
-      });
-  });
-});
