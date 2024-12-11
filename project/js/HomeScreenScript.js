@@ -1,104 +1,55 @@
 import { db } from './firebase.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-// Función para alternar la visibilidad de la barra lateral
-function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("active");
-
-    // Si el sidebar está abierto, agrega el event listener para detectar clics fuera
-    if (sidebar.classList.contains("active")) {
-        document.addEventListener("click", handleOutsideClick);
-    } else {
-        document.removeEventListener("click", handleOutsideClick);
-    }
-}
-
-// Maneja el clic fuera del sidebar para cerrarlo
-function handleOutsideClick(event) {
-    const sidebar = document.getElementById("sidebar");
-    const profileIcon = document.getElementById("profile-icon");
-
-    // Verifica si el clic ocurrió fuera del sidebar y del icono de perfil
-    if (!sidebar.contains(event.target) && !profileIcon.contains(event.target)) {
-        sidebar.classList.remove("active");
-        document.removeEventListener("click", handleOutsideClick); // Quita el event listener
-    }
-}
-
-// Agrega el evento de clic al icono de perfil para abrir/cerrar el sidebar
-document.getElementById('profile-icon').addEventListener('click', toggleSidebar);
-
-
-// Función para cargar y renderizar las citas ordenadas por prioridad
 async function cargarCitas() {
-    const appointmentsContainer = document.getElementById('appointments-container');
-    appointmentsContainer.innerHTML = ''; // Limpiar cualquier contenido previo
+    const upcomingContainer = document.getElementById('upcoming-appointments-container');
+    const pastContainer = document.getElementById('past-appointments-container');
+    upcomingContainer.innerHTML = ''; // Limpiar contenido previo
+    pastContainer.innerHTML = ''; // Limpiar contenido previo
 
     const doctorsRef = collection(db, 'doctors');
     const doctorsSnapshot = await getDocs(doctorsRef);
 
-    // Array para almacenar todas las citas con prioridad calculada
-    let allAppointments = [];
+    let upcomingAppointments = [];
+    let pastAppointments = [];
 
-    doctorsSnapshot.forEach(doc => {
-        const doctorData = doc.data();
+    doctorsSnapshot.forEach(docSnapshot => {
+        const doctorData = docSnapshot.data();
         const appointments = doctorData.appointments || [];
+        const doctorId = docSnapshot.id; // Obtener ID del doctor
 
         appointments.forEach(appointment => {
             const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
             const currentTime = new Date();
 
-            let priority = 'Baja';
-            const timeDifference = (appointmentDate - currentTime) / (1000 * 60); // Diferencia en minutos
-
-            if (timeDifference <= 60) {
-                priority = 'Alta';
-            } else if (timeDifference <= 180) {
-                priority = 'Media';
-            }
-
-            // Agregar la cita con su información de prioridad al array
-            allAppointments.push({
+            const appointmentWithDoctor = {
                 ...appointment,
                 doctorName: `${doctorData.name} ${doctorData.lastname}`,
-                priority,
-                timeDifference,
-            });
+                doctorId, // Añadimos el ID del doctor para futuras actualizaciones
+            };
+
+            if (appointmentDate >= currentTime) {
+                // Cita próxima
+                upcomingAppointments.push(appointmentWithDoctor);
+            } else {
+                // Cita pasada
+                pastAppointments.push(appointmentWithDoctor);
+            }
         });
     });
 
-    // Ordenar las citas por prioridad (Alta -> Media -> Baja) y luego por cercanía de tiempo
-    allAppointments.sort((a, b) => {
-        const priorityOrder = { 'Alta': 1, 'Media': 2, 'Baja': 3 };
-        return priorityOrder[a.priority] - priorityOrder[b.priority] || a.timeDifference - b.timeDifference;
-    });
+    // Renderizar citas próximas
+    renderAppointments(upcomingAppointments, upcomingContainer);
 
-    // Renderizar las citas ordenadas
-    allAppointments.forEach(appointment => {
+    // Renderizar citas pasadas
+    renderAppointments(pastAppointments, pastContainer);
+}
+
+// Renderizar y agregar eventos a las tarjetas de cita
+function renderAppointments(appointments, container) {
+    appointments.forEach(appointment => {
         const appointmentCard = document.createElement('div');
         appointmentCard.classList.add('appointment-card');
-
-        // Ícono de prioridad basado en la cercanía de la cita
-        const priorityIcon = document.createElement('span');
-        priorityIcon.classList.add('priority-icon');
-
-        switch (appointment.priority) {
-            case 'Alta':
-                priorityIcon.textContent = '⚠️';
-                break;
-            case 'Media':
-                priorityIcon.textContent = '🟡';
-                break;
-            case 'Baja':
-                priorityIcon.textContent = '✅';
-                break;
-            default:
-                priorityIcon.textContent = '📅';
-                break;
-        }
-
-        // Agregar contenido de la cita a la tarjeta
         appointmentCard.innerHTML = `
             <h3>${appointment.name}</h3>
             <p>Doctor: ${appointment.doctorName}</p>
@@ -106,11 +57,68 @@ async function cargarCitas() {
             <p>Fecha: ${appointment.date}</p>
             <p>Hora: ${appointment.time}</p>
         `;
+        container.appendChild(appointmentCard);
 
-        // Añadir ícono de prioridad y agregar la tarjeta al contenedor
-        appointmentCard.appendChild(priorityIcon);
-        appointmentsContainer.appendChild(appointmentCard);
+        // Agregar evento click para mostrar los detalles de la cita
+        appointmentCard.addEventListener('click', () => showAppointmentDetails(appointment));
     });
+}
+
+// Mostrar detalles de la cita con SweetAlert
+async function showAppointmentDetails(appointment) {
+    const { name, doctorName, status, date, time, doctorId } = appointment;
+
+    const { isConfirmed, value: newStatus } = await Swal.fire({
+        title: `Detalles de la Cita`,
+        html: `
+            <p><strong>Nombre:</strong> ${name}</p>
+            <p><strong>Doctor:</strong> ${doctorName}</p>
+            <p><strong>Estado Actual:</strong> ${status}</p>
+            <p><strong>Fecha:</strong> ${date}</p>
+            <p><strong>Hora:</strong> ${time}</p>
+            <p>¿Desea actualizar el estado de esta cita?</p>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        input: 'select',
+        inputOptions: {
+            Atendido: 'Atendido',
+            'No Atendido': 'No Atendido',
+        },
+        inputPlaceholder: 'Seleccione el nuevo estado',
+        preConfirm: selectedStatus => selectedStatus,
+    });
+
+    if (isConfirmed && newStatus) {
+        await updateAppointmentStatus(doctorId, appointment, newStatus);
+        Swal.fire('Actualizado', `El estado ha sido cambiado a ${newStatus}.`, 'success');
+        cargarCitas(); // Volver a cargar las citas para reflejar los cambios
+    }
+}
+
+// Actualizar el estado de la cita en Firestore
+async function updateAppointmentStatus(doctorId, appointment, newStatus) {
+    const doctorRef = doc(db, 'doctors', doctorId);
+    const doctorSnapshot = await getDocs(collection(db, 'doctors'));
+
+    let appointments = [];
+
+    // Encontrar las citas del doctor y actualizar el estado
+    doctorSnapshot.forEach(docSnapshot => {
+        if (docSnapshot.id === doctorId) {
+            const doctorData = docSnapshot.data();
+            appointments = doctorData.appointments.map(app => {
+                if (app.date === appointment.date && app.time === appointment.time) {
+                    return { ...app, status: newStatus }; // Actualizar el estado
+                }
+                return app;
+            });
+        }
+    });
+
+    // Actualizar las citas del doctor en Firestore
+    await updateDoc(doctorRef, { appointments });
 }
 
 // Cargar citas al cargar la página

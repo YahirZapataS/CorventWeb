@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/consults.css">
     <script src="../js/auth.js" type="module"></script>
     <script src="../js/consults.js" type="module"></script>
@@ -14,8 +17,6 @@
         <div class="Menu">
             <button type="submit" id="custom-button" onclick="window.location.href='patients.html'">PACIENTES</button>
             <button type="submit" id="custom-button" onclick="window.location.href='consults.html'">CONSULTAS</button>
-            <button type="submit" id="custom-button">CITAS PENDIENTES</button>
-
         </div>
         <!-- Ícono del perfil que activa el menú -->
     <div class="profile-icon" id="profile-icon">
@@ -28,13 +29,11 @@
             <p>Información de sesión</p>
         </div>
         <ul class="menu-options">
-            <li><a href="#profile">Perfil</a></li>
-            <li><a href="HomeScreen.html">Inicio</a></li>
+            <li><a href="doctorProfile.html">Perfil</a></li>
+            <li><a href="./HomeScreen.html">Inicio</a></li>
             <li><a href="management.html">Gestión</a></li>
             <li><a href="patients.html">Pacientes</a></li>
-            <li><a href="#consultations">Consultas</a></li>
-            <li><a href="#pending-appointments">Citas Pendientes</a></li>
-            <li><a href="#settings">Configuración</a></li>
+            <li><a href="consults.html">Consultas</a></li>
             <li><a href="login.html">Cerrar Sesión</a></li>
         </ul>
     </div>

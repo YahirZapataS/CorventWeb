@@ -19,8 +19,7 @@
     <div class="MenuDiv">
         <div class="Menu">
             <button type="submit" id="custom-button" onclick="window.location.href='patients.html'">PACIENTES</button>
-            <button type="submit" id="custom-button">CONSULTAS</button>
-            <button type="submit" id="custom-button">CITAS PENDIENTES</button>
+            <button type="submit" id="custom-button" onclick="window.location.href='consults.html'">CONSULTAS</button>
         </div>
     </div>
     <!-- Ícono del perfil que activa el menú -->
@@ -39,9 +38,7 @@
             <li><a href="./HomeScreen.html">Inicio</a></li>
             <li><a href="management.html">Gestión</a></li>
             <li><a href="patients.html">Pacientes</a></li>
-            <li><a href="#consultations">Consultas</a></li>
-            <li><a href="#pending-appointments">Citas Pendientes</a></li>
-            <li><a href="#settings">Configuración</a></li>
+            <li><a href="consults.html">Consultas</a></li>
             <li><a href="login.html">Cerrar Sesión</a></li>
         </ul>
     </div>
@@ -49,16 +46,22 @@
         <h2 id="welcome-message-home">Bienvenido</h2>
         <p>Accede rápidamente a tus pacientes, consultas y citas pendientes.</p>
     </div>
-    <section id="appointment-cards" class="appointment-cards">
+    <section id="appointment-cards-upcoming" class="appointment-cards">
         <h2>Citas Programadas</h2>
-        <div id="appointments-container" class="appointments-container">
+        <div id="upcoming-appointments-container" class="appointments-container">
             <!-- Aquí se insertarán las tarjetas de citas dinámicamente -->
+        </div>
+    </section>
+    <section id="appointment-cards-past" class="appointment-cards">
+        <h2>Citas Pasadas</h2>
+        <div id="past-appointments-container" class="appointments-container">
+            
         </div>
     </section>
     <div class="quick-access">
         <h2>Accesos Rápidos</h2>
-        <button onclick="location.href='new-patient.html'">Nuevo Paciente</button>
-        <button onclick="location.href='new-appointment.html'">Nueva Cita</button>
+        <button onclick="location.href='patients.html'">Nuevo Paciente</button>
+        <button onclick="location.href='appointmentsPatients.html'">Nueva Cita</button>
         <button onclick="location.href='patients.html'">Ver Pacientes</button>
     </div>
 

@@ -1,3 +1,7 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
 /* Contenedor del menú */
 .MenuDiv {
     width: 100%;
