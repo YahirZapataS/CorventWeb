@@ -11,6 +11,6 @@ btnSchedule.addEventListener('click', async () => {
 
     setTimeout(() => {
         Swal.close();
-        window.location.href = 'appointmentsPatients.html';
+        window.location.href = '../project/html/appointmentsPatients.html';
     }, 1000);
 });
