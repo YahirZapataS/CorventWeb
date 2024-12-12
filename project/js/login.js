@@ -3,6 +3,11 @@ import { auth } from './firebase.js';
 
 const btnLogin = document.getElementById('btn-login');
 const formGroup = document.getElementById('login-form');
+const btnBack = document.getElementById('btn-back');
+
+btnBack.addEventListener('click', async () => {
+    window.location.replace('../index.html');
+});
 
 btnLogin.addEventListener('click', async () => {
     const email = document.getElementById('user-input').value;
